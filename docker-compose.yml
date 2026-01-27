@@ -21,6 +21,11 @@ services:
       working_dir: /var/www
       volumes:
         - ./:/var/www
+        - /opt/backup:/opt/backup:ro
+        - /backups:/backups
+      environment:
+        - BACKUP_SCRIPT=/opt/backup/run_backup.sh
+        - BACKUP_ROOT=/backups
       depends_on:
         - db
 
