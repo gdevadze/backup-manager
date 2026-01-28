@@ -19,7 +19,7 @@ class RunScheduledBackups extends Command
             ->where('is_active', true)
             ->get()
             ->each(function ($job) use ($now) {
-                if (!$job->server->is_active) return;
+//                if (!$job->server->is_active) return;
 
 //                if (CronExpression::factory($job->cron)->isDue($now)) {
                     RunBackupJob::dispatch(
