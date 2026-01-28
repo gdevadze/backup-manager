@@ -19,7 +19,12 @@ class BackupServer extends Model
         'is_active' => 'boolean',
     ];
 
-    public function backups(): HasMany
+    public function jobs()
+    {
+        return $this->hasMany(BackupJob::class);
+    }
+
+    public function backups()
     {
         return $this->hasMany(Backup::class);
     }

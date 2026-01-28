@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('backup_servers', function (Blueprint $table) {
+        Schema::create('backup_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('host');
-            $table->string('ssh_user');
-            $table->unsignedInteger('ssh_port')->default(22);
-            $table->string('remote_path');
-            $table->text('exclude_args')->nullable();
+            $table->foreignId('backup_server_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['files', 'db']);
+            $table->string('cron');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->unique(['backup_server_id', 'type']);
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('backup_servers');
+        Schema::dropIfExists('backup_jobs');
     }
 };
