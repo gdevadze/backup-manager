@@ -26,7 +26,7 @@
             @foreach($servers as $s)
                 <tr>
                     <td class="fw-semibold">{{ $s->name }}</td>
-                    <td>{{ $s->ssh_user }}@{{ $s->host }}:{{ $s->ssh_port }}</td>
+                    <td>{{ $s->ssh_user }}@ {{ $s->host }}:{{ $s->ssh_port }}</td>
                     <td>
                         @if($s->is_active)
                             <span class="badge bg-success">Active</span>

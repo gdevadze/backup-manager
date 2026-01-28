@@ -25,22 +25,26 @@ class BackupController extends Controller
 
     public function download(Backup $backup, string $file): BinaryFileResponse
     {
-        $basePath = $backup->path;
+        $path = $backup->path;
 
-        if ($file === 'files') {
-            $filePath = $basePath . '/files.tar.gz';
-            $downloadName = $backup->server->name . '_files_' . $backup->backup_date . '.tar.gz';
-        } elseif ($file === 'db') {
-            $filePath = $basePath . '/db.sql.gz';
-            $downloadName = $backup->server->name . '_db_' . $backup->backup_date . '.sql.gz';
-        } else {
-            abort(404);
+        if ($backup->type === 'files') {
+            $file = $path . '/files.tar.gz';
+        } else { // db
+            $files = glob($path . '/*.sql.gz');
+
+            if (empty($files)) {
+                abort(404, 'Database backup file not found');
+            }
+
+            // თუ ერთია — ავიღოთ პირველი
+            $file = $files[0];
         }
 
-        if (!file_exists($filePath)) {
+        if (!file_exists($file)) {
             abort(404, 'Backup file not found');
         }
 
-        return response()->download($filePath, $downloadName);
+
+        return response()->download($file, basename($file));
     }
 }

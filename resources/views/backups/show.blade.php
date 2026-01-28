@@ -39,6 +39,13 @@
                 <code>{{ $backup->path }}</code>
             </div>
 
+            <div class="mb-3">
+                <b>Size:</b>
+                <span class="badge bg-info">
+        {{ $backup->size_human }}
+    </span>
+            </div>
+
             <label class="form-label fw-bold">Log output</label>
             <pre class="bg-dark text-light p-3 rounded"
                  style="max-height:500px; overflow:auto">{{ $backup->log }}</pre>

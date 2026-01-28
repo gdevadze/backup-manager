@@ -49,3 +49,4 @@ services:
 
 volumes:
   backup_mng_db:
+

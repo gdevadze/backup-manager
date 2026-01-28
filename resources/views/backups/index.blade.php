@@ -10,6 +10,7 @@
                 <th>Date</th>
                 <th>Server</th>
                 <th>Type</th>
+                <th>Size</th>
                 <th>Status</th>
                 <th class="text-end">View</th>
             </tr>
@@ -24,6 +25,7 @@
                         {{ strtoupper($b->type) }}
                     </span>
                     </td>
+                    <td>{{ $b->size_human }}</td>
                     <td>
                         @if($b->status === 'success')
                             <span class="badge bg-success">Success</span>
