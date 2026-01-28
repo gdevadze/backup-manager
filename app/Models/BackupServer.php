@@ -29,6 +29,11 @@ class BackupServer extends Model
         return $this->hasMany(Backup::class);
     }
 
+    public function databases()
+    {
+        return $this->hasMany(BackupDatabase::class);
+    }
+
     public function setDbPasswordAttribute($value): void
     {
         $this->attributes['db_password'] = $value ? Crypt::encryptString($value) : null;

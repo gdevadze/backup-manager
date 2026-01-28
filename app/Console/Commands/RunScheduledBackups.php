@@ -21,12 +21,12 @@ class RunScheduledBackups extends Command
             ->each(function ($job) use ($now) {
                 if (!$job->server->is_active) return;
 
-                if (CronExpression::factory($job->cron)->isDue($now)) {
+//                if (CronExpression::factory($job->cron)->isDue($now)) {
                     RunBackupJob::dispatch(
                         $job->backup_server_id,
                         $job->type
                     );
-                }
+//                }
             });
     }
 }

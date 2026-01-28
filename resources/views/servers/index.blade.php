@@ -38,6 +38,9 @@
                         <span class="badge bg-dark">{{ $s->jobs_count }}</span>
                     </td>
                     <td class="text-end">
+                        <a href="{{ route('servers.databases', $s) }}" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-clock"></i>
+                        </a>
                         <a href="{{ route('servers.jobs', $s) }}" class="btn btn-sm btn-outline-dark">
                             <i class="bi bi-clock"></i>
                         </a>

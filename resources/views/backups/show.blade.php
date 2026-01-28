@@ -7,8 +7,31 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <div class="mb-2">
-                <b>Status:</b> {{ $backup->status }}
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <b>Status:</b>
+                    <span class="badge bg-{{ $backup->status === 'success' ? 'success' : 'danger' }}">
+                    {{ $backup->status }}
+                </span>
+                </div>
+                <div class="col-md-6 text-end">
+                    @if($backup->status === 'success')
+                        @if($backup->type === 'files')
+                            <a href="{{ route('backups.download', [$backup, 'files']) }}"
+                               class="btn btn-sm btn-primary">
+                                ⬇ Download Files
+                            </a>
+                        @endif
+
+                        @if($backup->type === 'db')
+                            <a href="{{ route('backups.download', [$backup, 'db']) }}"
+                               class="btn btn-sm btn-success">
+                                ⬇ Download Database
+                            </a>
+                        @endif
+                    @endif
+                </div>
             </div>
 
             <div class="mb-3">
