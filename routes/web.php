@@ -6,8 +6,12 @@ use App\Http\Controllers\BackupJobController;
 use App\Http\Controllers\BackupServerController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-
+use App\Services\TelegramService;
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/test', function (){
+    return view('welcome');
+});
 
 Route::resource('servers', BackupServerController::class);
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BackupServer;
 use Illuminate\Http\Request;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class BackupServerController extends Controller
 {
@@ -29,7 +31,18 @@ class BackupServerController extends Controller
             'exclude_args'=> 'nullable|string',
             'is_active'   => 'boolean',
         ]);
-
+        try {
+            // 🔐 SSH test BEFORE save
+            $this->testSshConnection(
+                $data['host'],
+                $data['ssh_user'],
+                $data['ssh_port']
+            );
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'ssh' => 'SSH connection failed: ' . $e->getMessage()
+            ]);
+        }
         BackupServer::create($data);
 
         return redirect()
@@ -68,5 +81,34 @@ class BackupServerController extends Controller
         return redirect()
             ->route('servers.index')
             ->with('ok', 'Server deleted');
+    }
+
+    private function testSshConnection($host, $user, $port)
+    {
+        $key = '/opt/backup/id_backup';
+
+        $process = new Process([
+            'ssh',
+            '-i', $key,
+            '-p', $port,
+            '-o', 'BatchMode=yes',
+            '-o', 'StrictHostKeyChecking=no',
+            '-o', 'UserKnownHostsFile=/dev/null',
+            "{$user}@{$host}",
+            'echo SSH_OK'
+        ]);
+
+        $process->setTimeout(10);
+        $process->run();
+
+        if (! $process->isSuccessful()) {
+            throw new \Exception(
+                "SSH connection failed: " . $process->getErrorOutput()
+            );
+        }
+
+        if (! str_contains($process->getOutput(), 'SSH_OK')) {
+            throw new \Exception('SSH connected but unexpected response');
+        }
     }
 }

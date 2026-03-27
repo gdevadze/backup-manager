@@ -12,7 +12,7 @@ class BackupController extends Controller
     {
         $backups = Backup::with('server')
             ->latest()
-            ->paginate(20);
+            ->get();
 
         return view('backups.index', compact('backups'));
     }

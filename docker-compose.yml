@@ -2,6 +2,7 @@ services:
   nginx:
     image: nginx:1.25.0-alpine
     container_name: backup-mng-nginx
+    restart: unless-stopped
     volumes:
       - ./:/var/www
       - ./_docker/nginx/conf.d:/etc/nginx/conf.d:ro
@@ -18,6 +19,7 @@ services:
           user: backup_mng
           uid: 1002
       container_name: backup-mng-app
+      restart: unless-stopped
       working_dir: /var/www
       volumes:
         - ./:/var/www

@@ -38,25 +38,6 @@
 
     <hr class="my-2">
 
-    <div class="col-md-4">
-        <label class="form-label">DB Name (optional)</label>
-        <input name="db_name" class="form-control" value="{{ old('db_name', $server->db_name ?? '') }}">
-        @error('db_name')<div class="text-danger small">{{ $message }}</div>@enderror
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">DB User (optional)</label>
-        <input name="db_user" class="form-control" value="{{ old('db_user', $server->db_user ?? '') }}">
-        @error('db_user')<div class="text-danger small">{{ $message }}</div>@enderror
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">DB Password (optional)</label>
-        <input name="db_password" type="password" class="form-control" value="">
-        @error('db_password')<div class="text-danger small">{{ $message }}</div>@enderror
-        @isset($server)
-            <div class="form-text">Leave empty to keep existing password.</div>
-        @endisset
-    </div>
-
     <div class="col-12">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="is_active" value="1"

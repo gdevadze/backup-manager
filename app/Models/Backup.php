@@ -12,6 +12,8 @@ class Backup extends Model
 
     protected $casts = [
         'size_bytes' => 'integer',
+        'finished_at' => 'datetime',
+        'backup_date' => 'datetime',
     ];
 
     public function server(): BelongsTo

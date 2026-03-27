@@ -15,7 +15,7 @@ class RunScheduledBackups extends Command
     {
         $now = now();
 
-        BackupJob::with('server')
+        BackupJob::with('backup_server')
             ->where('is_active', true)
             ->get()
             ->each(function ($job) use ($now) {
